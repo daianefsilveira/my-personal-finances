@@ -1,2 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <!-- Buttons. -->
+    <style name="ButtonNewTransaction" parent="@style/Widget.Material3.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/dark_green</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:text">Nova Transação</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="cornerRadius">100dp</item>
+    </style>
+
+    <style name="ButtonSave" parent="@style/Widget.Material3.Button">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/green</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:text">Salvar</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="cornerRadius">100dp</item>
+    </style>
+</resources>
