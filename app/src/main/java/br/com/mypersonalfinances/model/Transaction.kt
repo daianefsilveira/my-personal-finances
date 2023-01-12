@@ -1,6 +1,11 @@
 package br.com.mypersonalfinances.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "transaction_table")
 data class Transaction(
+    @PrimaryKey(autoGenerate = true)
     val id: Int?,
     val amount: Double,
     val description: String,
@@ -10,8 +15,16 @@ data class Transaction(
 )
 
 enum class Category {
-    ALIMENTACAO,
-    LAZER,
+    VIAGEM,
+    SAUDE,
     CASA,
-    TRANSPORTE
+    ALIMENTACAO,
+    MERCADO,
+    TRANSPORTE,
+    LAZER,
+    SALARIO,
+    BONIFICACAO,
+    ECONOMIZEI,
+    OUTROS
+
 }
