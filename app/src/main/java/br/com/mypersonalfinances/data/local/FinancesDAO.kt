@@ -7,7 +7,7 @@ import br.com.mypersonalfinances.model.Transaction
 
 
 @Dao
-interface FinanceDAO {
+interface FinancesDAO {
     @Insert
     suspend fun insert(transaction: Transaction)
 
