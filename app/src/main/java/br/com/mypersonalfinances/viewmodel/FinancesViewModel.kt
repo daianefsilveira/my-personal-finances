@@ -39,6 +39,7 @@ class FinancesViewModel(application: Application) : AndroidViewModel(application
         ViewModelProvider.AndroidViewModelFactory(application) {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
+
             FinancesViewModel(application) as T
     }
 }
