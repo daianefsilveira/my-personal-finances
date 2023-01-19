@@ -41,7 +41,5 @@
             android:layout_below="@id/item_title"
             android:textSize="30sp"/>
 
-
     </RelativeLayout>
-
 </androidx.cardview.widget.CardView>

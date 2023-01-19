@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="br.com.mypersonalfinances.view.fragments.HomeFragment"
+        android:name="br.com.mypersonalfinances.presenter.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -19,11 +19,11 @@
     </fragment>
     <fragment
         android:id="@+id/addTransactionFragment"
-        android:name="br.com.mypersonalfinances.view.fragments.AddTransactionFragment"
+        android:name="br.com.mypersonalfinances.presenter.fragments.AddTransactionFragment"
         android:label="AddTransactionFragment" />
     <fragment
         android:id="@+id/extractFragment"
-        android:name="br.com.mypersonalfinances.view.fragments.ExtractFragment"
+        android:name="br.com.mypersonalfinances.presenter.fragments.ExtractFragment"
         android:label="fragment_extract"
         tools:layout="@layout/fragment_extract" />
 </navigation>

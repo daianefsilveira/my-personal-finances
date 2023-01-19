@@ -1,29 +1,43 @@
-package br.com.mypersonalfinances.view.fragments
+package br.com.mypersonalfinances.presenter.fragments
 
+import android.app.Application
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.mypersonalfinances.adapter.HomeAdapter
-import br.com.mypersonalfinances.model.HomeCardModel
+import br.com.mypersonalfinances.presenter.adapter.HomeAdapter
+import br.com.mypersonalfinances.presenter.HomeCardModel
 import br.com.mypersonalfinances.R
 import br.com.mypersonalfinances.databinding.FragmentHomeBinding
+import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var application: Application
+
     lateinit var homeAdapter: HomeAdapter
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, FinancesViewModel.FinancesViewModelFactory(application))[FinancesViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
+        application = requireActivity().application!!
+
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -31,32 +45,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupRecyclerView(createList())
+        viewModel.updateList()
         setupButtons()
+        setupObserver()
     }
 
-    private fun createList(): List<HomeCardModel> {
-        return listOf(
-            HomeCardModel(
-                    title = "Entradas",
-            amount = "R$ 0,00",
-            imagem = ContextCompat.getDrawable(requireContext(), R.drawable.income)!!,
-            backgroundColor = R.color.saved_money
-        ),
-            HomeCardModel(
-                title = "Saídas",
-                amount = "R$ 0,00",
-                imagem = ContextCompat.getDrawable(requireContext(), R.drawable.expense)!!,
-                backgroundColor = R.color.spent_money
-            ),
-            HomeCardModel(
-                title = "Total",
-                amount = "R$ 0,00",
-                imagem = ContextCompat.getDrawable(requireContext(), R.drawable.ic_total)!!,
-                backgroundColor = R.color.green
-            )
-        )
+   /* private fun createList(): List<HomeCardModel> {
+        return
+    }*/
+
+    private fun setupObserver() {
+        viewModel.balance.observe(viewLifecycleOwner) {
+            setupRecyclerView(it)
+        }
     }
 
     private fun setupRecyclerView(homeCardList: List<HomeCardModel>) {

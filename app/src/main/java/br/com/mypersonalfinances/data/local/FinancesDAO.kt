@@ -3,7 +3,6 @@ package br.com.mypersonalfinances.data.local
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import br.com.mypersonalfinances.model.Transaction
 
 
 @Dao

@@ -1,22 +1,24 @@
-package br.com.mypersonalfinances.viewmodel
+package br.com.mypersonalfinances.presenter.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
 import br.com.mypersonalfinances.data.local.FinancesRepository
-import br.com.mypersonalfinances.model.Balance
-import br.com.mypersonalfinances.model.Transaction
+import br.com.mypersonalfinances.presenter.HomeCardModel
+import br.com.mypersonalfinances.data.local.Transaction
 import kotlinx.coroutines.launch
 
 class FinancesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = FinancesRepository(application)
-    var transactionList = MutableLiveData<List<Transaction>>()
-    var balance = MutableLiveData<Balance>()
+
+    private var _balance = MutableLiveData<List<HomeCardModel>>()
+    var balance : LiveData<List<HomeCardModel>> = _balance
 
     fun updateList() {
         viewModelScope.launch {
-            transactionList.value = repository.getAll()
-            balance.value = repository.totalBalance(transactionList.value!!)
+            val transactionList = repository.getAll()
+            val homeCardModelList = repository.convertTransactionToHomeCardList(transactionList)
+            _balance.value = homeCardModelList
         }
     }
 
@@ -27,13 +29,13 @@ class FinancesViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun remove(position: Int) {
+/*    fun remove(position: Int) {
         viewModelScope.launch {
             val transaction = transactionList.value!![position]
             repository.delete(transaction.id.toString())
             updateList()
         }
-    }
+    }*/
 
     class FinancesViewModelFactory(private val application: Application) :
         ViewModelProvider.AndroidViewModelFactory(application) {

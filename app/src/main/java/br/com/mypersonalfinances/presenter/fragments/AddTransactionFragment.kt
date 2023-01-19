@@ -1,31 +1,49 @@
-package br.com.mypersonalfinances.view.fragments
+package br.com.mypersonalfinances.presenter.fragments
 
+
+import android.app.Application
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.mypersonalfinances.R
-import br.com.mypersonalfinances.adapter.HomeAdapter
 import br.com.mypersonalfinances.databinding.FragmentAddTransactionBinding
-import br.com.mypersonalfinances.model.Category
-import br.com.mypersonalfinances.model.Transaction
+import br.com.mypersonalfinances.data.local.Category
+import br.com.mypersonalfinances.data.local.Transaction
+import br.com.mypersonalfinances.data.local.TransactionType
+import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class AddTransactionFragment : Fragment() {
 
     private var savedMoney: Boolean = false
-    private lateinit var transactionAdapter: HomeAdapter
 
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var application: Application
+
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            FinancesViewModel.FinancesViewModelFactory(application)
+        )[FinancesViewModel::class.java]
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
+        application = requireActivity().application
+
         // Inflate the layout for this fragment
         _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
 
@@ -41,18 +59,20 @@ class AddTransactionFragment : Fragment() {
 
         setupButton()
         setupRadioButton()
+        setupDate()
+
     }
 
     private fun setupButton() {
         binding.btnSave.setOnClickListener {
+            val transaction = setTransactionInformation()
             if (editTextsAreEmpty()) {
                 Toast.makeText(context, "Preencha os campos corretamente!", Toast.LENGTH_LONG)
                     .show()
             } else {
-                val transactionInfo = setTransactionInformation()
+                viewModel.add(transaction)
                 findNavController().popBackStack()
             }
-
         }
     }
 
@@ -60,8 +80,26 @@ class AddTransactionFragment : Fragment() {
         return binding.etDescription.editText?.text?.isEmpty() == binding.etAmount.editText?.text?.isEmpty() == binding.etCategory.editText?.text?.isEmpty()
     }
 
-    private fun setupSpinner() {
-
+    private fun setupDate() {
+        binding.apply {
+            dateInput.setOnClickListener {
+                // create new instance of DatePickerFragment
+                val datePickerFragment = DatePickerFragment()
+                val supportFragmentManager = requireActivity().supportFragmentManager
+                // implement setFragmentResultListener
+                supportFragmentManager.setFragmentResultListener(
+                    "REQUEST_KEY",
+                    viewLifecycleOwner
+                ) { resultKey, bundle ->
+                    if (resultKey == "REQUEST_KEY") {
+                        val date = bundle.getString("SELECTED_DATE")
+                        binding.dateInput.setText(date)
+                    }
+                }
+                // show
+                datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
+            }
+        }
     }
 
     private fun setupRadioButton() {
@@ -76,11 +114,16 @@ class AddTransactionFragment : Fragment() {
     private fun setTransactionInformation(): Transaction {
         return Transaction(
             null,
-            binding.etAmount.editText!!.text.toString().toDouble(),
-            binding.etDescription.editText!!.text.toString(),
-            binding.etDate.editText.toString(),
+            binding.etAmount.editText?.text.toString().toDouble(),
+            binding.etDescription.editText?.text.toString(),
+            binding.etDate.editText?.text.toString(),
             Category.LAZER,
-            savedMoney
+            TransactionType.TOTAL
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

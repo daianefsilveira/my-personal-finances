@@ -1,4 +1,4 @@
-package br.com.mypersonalfinances.model
+package br.com.mypersonalfinances.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,12 +7,18 @@ import androidx.room.PrimaryKey
 data class Transaction(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
-    val amount: Double,
-    val description: String,
-    val date: String,
-    val category: Category,
-    val savedMoney: Boolean
+    val amount: Double?,
+    val description: String?,
+    val date: String?,
+    val category: Category?,
+    val transactionType: TransactionType
 )
+
+enum class TransactionType {
+    INCOME,
+     EXPENSE,
+     TOTAL,
+}
 
 enum class Category {
     VIAGEM,
@@ -26,5 +32,4 @@ enum class Category {
     BONIFICACAO,
     ECONOMIZEI,
     OUTROS
-
 }

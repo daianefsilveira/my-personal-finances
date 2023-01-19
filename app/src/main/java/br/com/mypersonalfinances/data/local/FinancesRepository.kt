@@ -1,12 +1,12 @@
 package br.com.mypersonalfinances.data.local
 
 import android.app.Application
-import br.com.mypersonalfinances.model.Balance
-import br.com.mypersonalfinances.model.Transaction
-import java.math.BigDecimal
-import java.math.RoundingMode
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
+import br.com.mypersonalfinances.R
+import br.com.mypersonalfinances.presenter.HomeCardModel
 
-class FinancesRepository(application: Application) {
+class FinancesRepository(private val application: Application) {
 
     private val financesDAO: FinancesDAO
 
@@ -27,20 +27,43 @@ class FinancesRepository(application: Application) {
         financesDAO.delete(id)
     }
 
-    fun totalBalance(transactionList: List<Transaction>): Balance {
-        val balance = Balance(0.00, 0.00, 0.00)
+    fun convertTransactionToHomeCardList(transactionList: List<Transaction>): List<HomeCardModel> {
+        val homeCardModelList = mutableListOf<HomeCardModel>()
 
-        transactionList.forEach{
-            if (it.savedMoney) {
-                balance.income += it.amount
-            } else {
-                balance.expense -= it.amount
-            }
+        transactionList.forEach { transaction ->
+            homeCardModelList.add(
+                HomeCardModel(
+                    amount = transaction.amount.toString(),
+                    title = getTitle(transaction),
+                    imagem = getImage(transaction),
+                    backgroundColor = getBackground(transaction)
+                )
+            )
         }
-        balance.income = BigDecimal(balance.income).setScale(2, RoundingMode.HALF_EVEN).toDouble()
-        balance.expense = BigDecimal(balance.expense).setScale(2, RoundingMode.HALF_EVEN).toDouble()
-        balance.total = BigDecimal(balance.income + balance.expense).setScale(2, RoundingMode.HALF_EVEN).toDouble()
+        return homeCardModelList
+    }
 
-        return balance
+    private fun getBackground(transaction: Transaction): Int {
+        return when (transaction.transactionType) {
+            TransactionType.INCOME -> R.color.soft_green
+            TransactionType.EXPENSE -> R.color.soft_red
+            TransactionType.TOTAL -> R.color.green
+        }
+    }
+
+    private fun getImage(transaction: Transaction): Drawable {
+        return when (transaction.transactionType) {
+            TransactionType.INCOME -> ContextCompat.getDrawable(application, R.drawable.income)!!
+            TransactionType.EXPENSE -> ContextCompat.getDrawable(application, R.drawable.expense)!!
+            TransactionType.TOTAL -> ContextCompat.getDrawable(application, R.drawable.ic_total)!!
+        }
+    }
+
+    private fun getTitle(transaction: Transaction): String {
+        return when (transaction.transactionType) {
+            TransactionType.INCOME -> "Entradas"
+            TransactionType.EXPENSE -> "Saídas"
+            TransactionType.TOTAL -> "Total"
+        }
     }
 }
