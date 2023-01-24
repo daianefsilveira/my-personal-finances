@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import br.com.mypersonalfinances.R
 import br.com.mypersonalfinances.databinding.CardExtractBinding
-import br.com.mypersonalfinances.data.local.Transaction
+import br.com.mypersonalfinances.presenter.ExtractCardModel
 
-class ExtractAdapter(var transactionsList: List<Transaction>) :
+class ExtractAdapter(var extractCardList: List<ExtractCardModel>, private val listener: OnItemClickListener) :
     RecyclerView.Adapter<ExtractAdapter.ExtractViewHolder>() {
+
+    interface OnItemClickListener {
+        fun delete(position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExtractViewHolder {
         val binding = CardExtractBinding
@@ -21,39 +24,34 @@ class ExtractAdapter(var transactionsList: List<Transaction>) :
         return ExtractViewHolder(binding)
     }
 
-    override fun getItemCount() = transactionsList.size
+    override fun getItemCount() = extractCardList.size
 
     override fun onBindViewHolder(holder: ExtractViewHolder, position: Int) {
-        holder.bind(transactionsList[position])
+
+        holder.binding.ivDelete.setOnClickListener {
+            listener.delete(position)
+        }
+
+        holder.bind(extractCardList[position])
     }
 
     class ExtractViewHolder(val binding: CardExtractBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: Transaction) = with(itemView) {
-            binding.tvDescription.text = transaction.description
-            binding.tvCategory.text = "Lazer"
-            binding.tvDate.text = transaction.date
+        fun bind(extractCardModel: ExtractCardModel) = with(itemView) {
 
-            if (transaction.transactionType) {
-                binding.tvAmount.text = String.format("R$ %.2f", transaction.amount)
-                binding.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.gray))
-                binding.containerCardExtract.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.soft_green
-                    )
-                )
-            } else {
-                binding.tvAmount.text = String.format("R$ -%.2f", transaction.amount)
-                binding.tvAmount.setTextColor(ContextCompat.getColor(context, R.color.red))
-                binding.containerCardExtract.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.soft_red
-                    )
-                )
+            binding.tvDescription.text = extractCardModel.description
+            binding.tvAmount.text = extractCardModel.amount
+            binding.tvCategory.text = "Lazer"
+            binding.tvDate.text = extractCardModel.date
+
+
+            extractCardModel.backgroundColor?.let {
+                binding.root.setCardBackgroundColor(ContextCompat.getColor(context, it))
             }
         }
     }
 }
+
+
+

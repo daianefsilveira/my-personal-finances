@@ -52,7 +52,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:text="13/04/2020"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_delete" />
 
 </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class Transaction(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
-    val amount: Double?,
-    val description: String?,
+    val amount: Double,
+    val description: String,
     val date: String?,
     val category: Category?,
     val transactionType: TransactionType
@@ -17,7 +17,6 @@ data class Transaction(
 enum class TransactionType {
     INCOME,
      EXPENSE,
-     TOTAL,
 }
 
 enum class Category {

@@ -29,10 +29,13 @@ class HomeAdapter(var homeCardList: List<HomeCardModel>) :
 
     class HomeViewHolder(private val binding: HomeCardLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(homeCardModel: HomeCardModel) = with(itemView) {
+
             binding.itemTitle.text = homeCardModel.title
             binding.itemAmount.text = homeCardModel.amount
             binding.itemImage.setImageDrawable(homeCardModel.imagem)
+
             homeCardModel.backgroundColor?.let {
                 binding.root.setCardBackgroundColor(ContextCompat.getColor(context, it))
             }

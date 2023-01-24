@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="br.com.mypersonalfinances.presenter.fragments.HomeFragment"
-        android:label="fragment_home"
+        android:label="Minhas Finanças Pessoais"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_addTransactionFragment"
@@ -20,10 +20,10 @@
     <fragment
         android:id="@+id/addTransactionFragment"
         android:name="br.com.mypersonalfinances.presenter.fragments.AddTransactionFragment"
-        android:label="AddTransactionFragment" />
+        android:label="Adicionar valor" />
     <fragment
         android:id="@+id/extractFragment"
         android:name="br.com.mypersonalfinances.presenter.fragments.ExtractFragment"
-        android:label="fragment_extract"
+        android:label="Extratos"
         tools:layout="@layout/fragment_extract" />
 </navigation>

@@ -4,6 +4,7 @@ import android.app.Application
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import br.com.mypersonalfinances.R
+import br.com.mypersonalfinances.presenter.ExtractCardModel
 import br.com.mypersonalfinances.presenter.HomeCardModel
 
 class FinancesRepository(private val application: Application) {
@@ -27,43 +28,27 @@ class FinancesRepository(private val application: Application) {
         financesDAO.delete(id)
     }
 
-    fun convertTransactionToHomeCardList(transactionList: List<Transaction>): List<HomeCardModel> {
-        val homeCardModelList = mutableListOf<HomeCardModel>()
+    fun convertTransactionToExtractCardList(transactionList: List<Transaction>): List<ExtractCardModel> {
+        val extractCardModelList = mutableListOf<ExtractCardModel>()
 
         transactionList.forEach { transaction ->
-            homeCardModelList.add(
-                HomeCardModel(
+            extractCardModelList.add(
+                ExtractCardModel(
+                    description = transaction.description.toString(),
                     amount = transaction.amount.toString(),
-                    title = getTitle(transaction),
-                    imagem = getImage(transaction),
+                    category = transaction.category.toString(),
+                    date = transaction.date.toString(),
                     backgroundColor = getBackground(transaction)
                 )
             )
         }
-        return homeCardModelList
+        return extractCardModelList
     }
 
     private fun getBackground(transaction: Transaction): Int {
         return when (transaction.transactionType) {
             TransactionType.INCOME -> R.color.soft_green
             TransactionType.EXPENSE -> R.color.soft_red
-            TransactionType.TOTAL -> R.color.green
-        }
-    }
-
-    private fun getImage(transaction: Transaction): Drawable {
-        return when (transaction.transactionType) {
-            TransactionType.INCOME -> ContextCompat.getDrawable(application, R.drawable.income)!!
-            TransactionType.EXPENSE -> ContextCompat.getDrawable(application, R.drawable.expense)!!
-            TransactionType.TOTAL -> ContextCompat.getDrawable(application, R.drawable.ic_total)!!
-        }
-    }
-
-    private fun getTitle(transaction: Transaction): String {
-        return when (transaction.transactionType) {
-            TransactionType.INCOME -> "Entradas"
-            TransactionType.EXPENSE -> "Saídas"
-            TransactionType.TOTAL -> "Total"
         }
     }
 }

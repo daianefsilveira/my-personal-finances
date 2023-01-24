@@ -17,7 +17,6 @@ import br.com.mypersonalfinances.data.local.Category
 import br.com.mypersonalfinances.data.local.Transaction
 import br.com.mypersonalfinances.data.local.TransactionType
 import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -118,8 +117,16 @@ class AddTransactionFragment : Fragment() {
             binding.etDescription.editText?.text.toString(),
             binding.etDate.editText?.text.toString(),
             Category.LAZER,
-            TransactionType.TOTAL
+            convertRadioButtonType(savedMoney)
         )
+    }
+
+    private fun convertRadioButtonType(savedMoney: Boolean): TransactionType {
+        return if (savedMoney) {
+            TransactionType.INCOME
+        } else {
+            TransactionType.EXPENSE
+        }
     }
 
     override fun onDestroyView() {

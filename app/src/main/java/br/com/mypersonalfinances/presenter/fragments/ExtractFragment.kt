@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.mypersonalfinances.databinding.FragmentExtractBinding
+import br.com.mypersonalfinances.presenter.ExtractCardModel
 import br.com.mypersonalfinances.presenter.HomeCardModel
 import br.com.mypersonalfinances.presenter.adapter.ExtractAdapter
 import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
 
-class ExtractFragment : Fragment() {
+class ExtractFragment : Fragment(), ExtractAdapter.OnItemClickListener {
 
     private var _binding: FragmentExtractBinding? = null
     private val binding get() = _binding!!
@@ -47,20 +48,20 @@ class ExtractFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.balance.observe(viewLifecycleOwner) {
+        viewModel.extract.observe(viewLifecycleOwner) {
             setupRecyclerView(it)
         }
     }
 
-//    fun delete(position: Int) {
-//        viewModel.remove(position)
-//        setupRecyclerView()
-//    }
-
-    private fun setupRecyclerView(homeCardList: List<HomeCardModel> = mutableListOf()) {
-        extractAdapter = ExtractAdapter(homeCardList)
+    private fun setupRecyclerView(extractCardList: List<ExtractCardModel> = mutableListOf()) {
+        extractAdapter = ExtractAdapter(extractCardList, this)
         binding.recyclerViewExtract.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewExtract.setHasFixedSize(true)
         binding.recyclerViewExtract.adapter = extractAdapter
+    }
+
+    override fun delete(position: Int) {
+        viewModel.remove(position)
+        setupRecyclerView()
     }
 }
