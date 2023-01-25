@@ -1,20 +1,11 @@
 package br.com.mypersonalfinances.data.local
 
-import android.app.Application
-import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import br.com.mypersonalfinances.R
 import br.com.mypersonalfinances.presenter.ExtractCardModel
-import br.com.mypersonalfinances.presenter.HomeCardModel
 
-class FinancesRepository(private val application: Application) {
-
+class FinancesRepository(
     private val financesDAO: FinancesDAO
-
-    init {
-        val db = FinancesDataBase.getDatabase(application)
-        financesDAO = db.financesDao()
-    }
+) {
 
     suspend fun getAll(): List<Transaction> {
         return financesDAO.getAll()
@@ -34,7 +25,7 @@ class FinancesRepository(private val application: Application) {
         transactionList.forEach { transaction ->
             extractCardModelList.add(
                 ExtractCardModel(
-                    description = transaction.description.toString(),
+                    description = transaction.description,
                     amount = transaction.amount.toString(),
                     category = transaction.category.toString(),
                     date = transaction.date.toString(),

@@ -13,6 +13,7 @@ import br.com.mypersonalfinances.presenter.ExtractCardModel
 import br.com.mypersonalfinances.presenter.HomeCardModel
 import br.com.mypersonalfinances.presenter.adapter.ExtractAdapter
 import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class ExtractFragment : Fragment(), ExtractAdapter.OnItemClickListener {
 
@@ -23,9 +24,7 @@ class ExtractFragment : Fragment(), ExtractAdapter.OnItemClickListener {
 
     lateinit var extractAdapter: ExtractAdapter
 
-    private val viewModel by lazy {
-        ViewModelProvider(this, FinancesViewModel.FinancesViewModelFactory(application))[FinancesViewModel::class.java]
-    }
+    private val viewModel : FinancesViewModel by activityViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

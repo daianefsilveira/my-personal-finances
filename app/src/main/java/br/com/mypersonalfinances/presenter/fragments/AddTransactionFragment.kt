@@ -17,6 +17,7 @@ import br.com.mypersonalfinances.data.local.Category
 import br.com.mypersonalfinances.data.local.Transaction
 import br.com.mypersonalfinances.data.local.TransactionType
 import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.util.*
 
 
@@ -27,39 +28,24 @@ class AddTransactionFragment : Fragment() {
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var application: Application
-
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            FinancesViewModel.FinancesViewModelFactory(application)
-        )[FinancesViewModel::class.java]
-    }
+    private val viewModel : FinancesViewModel by activityViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        application = requireActivity().application
-
-        // Inflate the layout for this fragment
         _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
-
         val categories = resources.getStringArray(R.array.categories_array)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_item, categories)
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupButton()
         setupRadioButton()
         setupDate()
-
     }
 
     private fun setupButton() {

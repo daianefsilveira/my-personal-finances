@@ -20,6 +20,6 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setupWithNavController(findNavController(R.id.my_nav_host_fragment))
 
         binding.bottomNavigation.setupWithNavController(findNavController(R.id.my_nav_host_fragment))
-        }
     }
+}
 

@@ -4,6 +4,7 @@
     package="br.com.mypersonalfinances">
 
     <application
+        android:name="br.com.mypersonalfinances.AppApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
