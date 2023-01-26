@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.mypersonalfinances.presenter.HomeCardModel
 import br.com.mypersonalfinances.databinding.HomeCardLayoutBinding
 
-
 class HomeAdapter(var homeCardList: List<HomeCardModel>) :
     RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
@@ -33,12 +32,17 @@ class HomeAdapter(var homeCardList: List<HomeCardModel>) :
         fun bind(homeCardModel: HomeCardModel) = with(itemView) {
 
             binding.itemTitle.text = homeCardModel.title
-            binding.itemAmount.text = homeCardModel.amount
-            binding.itemImage.setImageDrawable(homeCardModel.imagem)
+            binding.itemAmount.text = formatCurrency(homeCardModel.amount)
+            binding.itemImage.setImageDrawable(
+                ContextCompat.getDrawable(context, homeCardModel.imagem))
 
             homeCardModel.backgroundColor?.let {
                 binding.root.setCardBackgroundColor(ContextCompat.getColor(context, it))
             }
+        }
+
+        private fun formatCurrency(amount: String): String {
+            return "R$ $amount"
         }
     }
 }

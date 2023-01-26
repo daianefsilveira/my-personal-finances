@@ -41,14 +41,17 @@ class ExtractAdapter(var extractCardList: List<ExtractCardModel>, private val li
         fun bind(extractCardModel: ExtractCardModel) = with(itemView) {
 
             binding.tvDescription.text = extractCardModel.description
-            binding.tvAmount.text = extractCardModel.amount
+            binding.tvAmount.text = formatCurrency(extractCardModel.amount)
             binding.tvCategory.text = "Lazer"
             binding.tvDate.text = extractCardModel.date
-
 
             extractCardModel.backgroundColor?.let {
                 binding.root.setCardBackgroundColor(ContextCompat.getColor(context, it))
             }
+        }
+
+        private fun formatCurrency(amount: String): String {
+            return "R$ $amount"
         }
     }
 }

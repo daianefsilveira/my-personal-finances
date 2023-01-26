@@ -1,10 +1,8 @@
 package br.com.mypersonalfinances.presenter
 
-import android.graphics.drawable.Drawable
-
 data class HomeCardModel(
     var title: String? = null,
     var amount: String,
-    val imagem: Drawable? = null,
+    val imagem: Int = 0,
     val backgroundColor: Int? = null,
 )
