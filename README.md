@@ -17,9 +17,10 @@ Como trabalhar com Recycler View, com Navigation Component para sistema de naveg
 ## Preview
 
 <div>
-<img src="https://user-images.githubusercontent.com/83470427/214850152-d079330c-8c19-4d19-acf2-d68d1813351e.png" width="250">
-<img src="https://user-images.githubusercontent.com/83470427/214850174-6c06598d-38dc-4ce5-bdcf-3cbb9a7f1952.png" width="250">
-<img src="https://user-images.githubusercontent.com/83470427/214850203-969c633d-0684-4b68-89ce-c1f26597221d.png" width="250">
+<img src="https://user-images.githubusercontent.com/83470427/214972659-b0a1a25a-9839-40af-adf5-3528a4a137a6.png" width="200">
+<img src="https://user-images.githubusercontent.com/83470427/214850152-d079330c-8c19-4d19-acf2-d68d1813351e.png" width="200">
+<img src="https://user-images.githubusercontent.com/83470427/214850174-6c06598d-38dc-4ce5-bdcf-3cbb9a7f1952.png" width="200">
+<img src="https://user-images.githubusercontent.com/83470427/214850203-969c633d-0684-4b68-89ce-c1f26597221d.png" width="200">
 </div>
 
 
