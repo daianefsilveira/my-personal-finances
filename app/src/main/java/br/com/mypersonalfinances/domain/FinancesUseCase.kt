@@ -9,7 +9,7 @@ import br.com.mypersonalfinances.presenter.HomeCardModel
 
 class FinancesUseCase(
     val repository: FinancesRepository
-    ) {
+) {
     suspend fun getAll(): List<Transaction>? {
         return repository.getAll()
     }
@@ -25,42 +25,47 @@ class FinancesUseCase(
     suspend fun delete(id: String) {
         repository.delete(id)
     }
+}
 
-    fun createHomeCardList(transaction: List<Transaction>): List<HomeCardModel> {
-        var incomes = 0.0
-        var expenses = 0.0
-        var total = 0.0
-
-        transaction.forEach {
-            if (it.transactionType == TransactionType.INCOME) {
-                incomes += it.amount
-            } else {
-                expenses -= it.amount
-            }
+fun createHomeCards(transaction: List<Transaction>): List<HomeCardModel> {
+    var incomes = 0.0
+    var expenses = 0.0
+    var total = 0.0
+    transaction.forEach {
+        if (it.transactionType == TransactionType.INCOME) {
+            incomes += it.amount
+        } else {
+            expenses -= it.amount
         }
-        total = incomes + expenses
-
-        val homeCardModelList = listOf(
-            HomeCardModel(
-                "Entradas",
-                incomes.toString(),
-                R.drawable.income,
-                backgroundColor = R.color.soft_green
-            ),
-            HomeCardModel(
-                "Saídas",
-                expenses.toString(),
-                R.drawable.expense,
-                backgroundColor = R.color.soft_red
-            ),
-            HomeCardModel(
-                "Total",
-                total.toString(),
-                R.drawable.ic_total,
-                backgroundColor = R.color.green
-            )
-        )
-
-        return homeCardModelList
     }
+    total = incomes + expenses
+    val homeCardModelList = createHomeCardList(incomes, expenses, total)
+    return homeCardModelList
+}
+
+fun createHomeCardList(
+    incomes: Double,
+    expenses: Double,
+    total: Double
+): List<HomeCardModel> {
+    return listOf(
+        HomeCardModel(
+            "Entradas",
+            incomes.toString(),
+            R.drawable.income,
+            backgroundColor = R.color.soft_green
+        ),
+        HomeCardModel(
+            "Saídas",
+            expenses.toString(),
+            R.drawable.expense,
+            backgroundColor = R.color.soft_red
+        ),
+        HomeCardModel(
+            "Total",
+            total.toString(),
+            R.drawable.ic_total,
+            backgroundColor = R.color.green
+        )
+    )
 }

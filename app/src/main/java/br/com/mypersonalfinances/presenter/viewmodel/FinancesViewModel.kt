@@ -3,6 +3,7 @@ package br.com.mypersonalfinances.presenter.viewmodel
 import androidx.lifecycle.*
 import br.com.mypersonalfinances.data.local.Transaction
 import br.com.mypersonalfinances.domain.FinancesUseCase
+import br.com.mypersonalfinances.domain.createHomeCards
 import br.com.mypersonalfinances.presenter.ExtractCardModel
 import br.com.mypersonalfinances.presenter.HomeCardModel
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ class FinancesViewModel(
         viewModelScope.launch {
             transactionList.value = financesUseCase.getAll()
             val transaction = transactionList.value!!
-            val homeCardList = financesUseCase.createHomeCardList(transaction)
+            val homeCardList = createHomeCards(transaction)
             _balance.value = homeCardList
             val extractCardModel = financesUseCase.convertTransactionToExtractCardList(transaction)
             _extract.value = extractCardModel
