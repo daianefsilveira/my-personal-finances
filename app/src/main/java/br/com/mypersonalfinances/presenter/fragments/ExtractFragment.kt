@@ -6,11 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.mypersonalfinances.databinding.FragmentExtractBinding
 import br.com.mypersonalfinances.presenter.ExtractCardModel
-import br.com.mypersonalfinances.presenter.HomeCardModel
 import br.com.mypersonalfinances.presenter.adapter.ExtractAdapter
 import br.com.mypersonalfinances.presenter.viewmodel.FinancesViewModel
 import org.koin.androidx.viewmodel.ext.android.activityViewModel

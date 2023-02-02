@@ -102,9 +102,27 @@ class AddTransactionFragment : Fragment() {
             binding.etAmount.editText?.text.toString().toDouble(),
             binding.etDescription.editText?.text.toString(),
             binding.etDate.editText?.text.toString(),
-            Category.LAZER,
+            convertCategoryType(binding.etCategory.editText?.text.toString()) ,
             convertRadioButtonType(savedMoney)
         )
+    }
+
+    private fun convertCategoryType(text: String?): Category? {
+        return when (text) {
+            "Viagem" -> Category.VIAGEM
+            "Saúde" -> Category.SAUDE
+            "Casa" -> Category.CASA
+            "Alimentação" -> Category.ALIMENTACAO
+            "Mercado" -> Category.MERCADO
+            "Transporte" -> Category.TRANSPORTE
+            "Lazer" -> Category.LAZER
+            "Salário" -> Category.SALARIO
+            "Bonificação" -> Category.BONIFICACAO
+            "Economizei" -> Category.ECONOMIZEI
+            else -> {
+                Category.OUTROS
+            }
+        }
     }
 
     private fun convertRadioButtonType(savedMoney: Boolean): TransactionType {

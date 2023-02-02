@@ -42,7 +42,7 @@ class ExtractAdapter(var extractCardList: List<ExtractCardModel>, private val li
 
             binding.tvDescription.text = extractCardModel.description
             binding.tvAmount.text = formatCurrency(extractCardModel.amount)
-            binding.tvCategory.text = "Lazer"
+            binding.tvCategory.text = extractCardModel.category
             binding.tvDate.text = extractCardModel.date
 
             extractCardModel.backgroundColor?.let {
